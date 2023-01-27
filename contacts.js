@@ -32,10 +32,10 @@ async function removeContact(contactId) {
     return null;
   }
 
-  const [newLiscContacts] = allContacts.splice(idx, 1);
+  const [newListContacts] = allContacts.splice(idx, 1);
   await updateDataContacts(allContacts);
 
-  return newLiscContacts;
+  return newListContacts;
 }
 
 async function addContact(name, email, phone) {

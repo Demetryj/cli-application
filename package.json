@@ -20,5 +20,8 @@
   "homepage": "https://github.com/Demetryj/cli-application#readme",
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "uniqid": "^5.4.0"
   }
 }

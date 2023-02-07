@@ -9,45 +9,61 @@ async function updateDataContacts(newDataContacts) {
 }
 
 async function getlistContacts() {
-  const data = await fs.readFile(listContactsPath, "utf8");
-  const contacts = JSON.parse(data);
-  return contacts;
+  try {
+    const data = await fs.readFile(listContactsPath, "utf8");
+    const contacts = JSON.parse(data);
+    return contacts;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function getContactById(contactId) {
-  const allContacts = await getlistContacts();
-  const contactById = allContacts.find((contact) => contact.id === contactId);
+  try {
+    const allContacts = await getlistContacts();
+    const contactById = allContacts.find((contact) => contact.id === contactId);
 
-  if (!contactById) {
-    return null;
+    if (!contactById) {
+      return null;
+    }
+
+    return contactById;
+  } catch (error) {
+    console.log(error);
   }
-
-  return contactById;
 }
 
 async function removeContact(contactId) {
-  const allContacts = await getlistContacts();
-  const idx = allContacts.findIndex((item) => item.id === contactId);
+  try {
+    const allContacts = await getlistContacts();
+    const idx = allContacts.findIndex((item) => item.id === contactId);
 
-  if (idx === -1) {
-    return null;
+    if (idx === -1) {
+      return null;
+    }
+
+    const [newListContacts] = allContacts.splice(idx, 1);
+    await updateDataContacts(allContacts);
+
+    return newListContacts;
+  } catch (error) {
+    console.log(error);
   }
-
-  const [newListContacts] = allContacts.splice(idx, 1);
-  await updateDataContacts(allContacts);
-
-  return newListContacts;
 }
 
 async function addContact(name, email, phone) {
-  const allContacts = await getlistContacts();
+  try {
+    const allContacts = await getlistContacts();
 
-  const contactAdd = { id: uniqid(), name, email, phone };
-  allContacts.push(contactAdd);
+    const contactAdd = { id: uniqid(), name, email, phone };
+    allContacts.push(contactAdd);
 
-  await updateDataContacts(allContacts);
+    await updateDataContacts(allContacts);
 
-  return contactAdd;
+    return contactAdd;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {
